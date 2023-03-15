@@ -2,6 +2,8 @@ const APIform = ({inputs, handleChange, onSubmit}) => {
     // for(const [key, value] of Object.entries(inputs)){
     //     console.log(`${key}: ${value}`);
     // }
+
+    //inputsInfo cannot be an object because in .map, we are only access one dictionary object at a time.
     const inputsInfo = [
         "Input a link to any website you would like to take a screenshot of. Do not include https or any protocol in the URL",
         "Input which image format you would prefer for your screenshot: jpeg, png, or webp",
@@ -12,7 +14,7 @@ const APIform = ({inputs, handleChange, onSubmit}) => {
     return (
         <div>
             <h2> Select Your Image Attributes: </h2>
-            <form className="form-container">
+            <form className="form-container" onSubmit={onSubmit}>
                 {inputs &&  
                     Object.entries(inputs).map(([category, value], index) => (
                         <li className="form" key={index}>

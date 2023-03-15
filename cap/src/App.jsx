@@ -19,10 +19,11 @@ function App() {
     }))
   }
 
-  const onSubmit = () => {
-    
+  const onSubmit = (event) => {
+    event.preventDefault();
+    console.log(inputs);
   }
-  
+
   return (
     <div className="App">
       <h1>Build Your Own Screenshot! 📸</h1>
@@ -30,7 +31,7 @@ function App() {
       <APIform 
         inputs={inputs}
         handleChange={(handleChange)}
-        onSubmit={onsubmit}
+        onSubmit={onSubmit}
       />
     </div>
   )
