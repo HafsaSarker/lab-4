@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import './App.css'
 import APIform from './Components/APIform';
+import Gallery from './Components/Gallery';
+
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 function App() {
+  const [prevImages, setPrevImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(null);
   const [inputs, setInputs] = useState({
     url: "",
@@ -12,7 +15,7 @@ function App() {
     width: "",
     height: ""
   })
-
+  console.log(prevImages)
   const handleChange = (event) => {
     const {name, value} = event.target;
     setInputs((prevState) => ({
@@ -23,7 +26,7 @@ function App() {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(inputs);
+    // console.log(inputs);
 
     let defaultValues = {
       format: "jpeg",
@@ -36,6 +39,7 @@ function App() {
     if(!inputs.url) {
       alert("You forgot to submit an url!");
     }else {
+      alert("Data is cooking...please wait");
       for(const [key, value] of Object.entries(inputs)) {
         if(!value){
           inputs[key] = defaultValues[key];
@@ -64,6 +68,7 @@ function App() {
       alert("Oops! Something went wrong with that query, let's try again!")
     }else {
       setCurrentImage(json.url);
+      setPrevImages((images) => [...images, json.url]);
       reset();
     }
   }
@@ -89,9 +94,16 @@ function App() {
       />
 
       {currentImage ?
-          (<img className='screenshot'
-          src={currentImage}
-          />) 
+          ( <div>
+              <h2>Query Result</h2>
+              <img className='screenshot'
+              src={currentImage}
+              />
+              <div className="gallery-container">
+                  <Gallery images = {prevImages} />
+                </div>
+            </div>
+          ) 
           : (
             <div className="container">
                 <p>
@@ -108,9 +120,12 @@ function App() {
                   &no_ads={inputs.no_ads}
                   <br></br>
                 </p>
+                
             </div>
           )
       }
+      
+      
     </div>
   )
 }
